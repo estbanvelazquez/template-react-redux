@@ -4,12 +4,12 @@ import {
   Route,
 } from "react-router-dom";
 
-import Home from "../views/Home";
+import LogIn from "../views/Login";
 
 const MainRoutes = () => (
   <BrowserRouter>
     <Routes>
-      <Route path="/" element={<Home />} />
+      <Route path="/" element={<LogIn />} />
     </Routes>
   </BrowserRouter>
 );
