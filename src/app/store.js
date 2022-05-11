@@ -1,10 +1,10 @@
 import { configureStore } from '@reduxjs/toolkit';
-import charactersSlice from '../redux/charactersSlice';
-import loginSlice from '../redux/charactersSlice';
+import charactersReducer from '../redux/charactersSlice';
+import loginReducer from '../redux/loginSlice';
 
 export const store = configureStore({
   reducer: {
-    characters: charactersSlice,
-    login: loginSlice,
+    characters: charactersReducer,
+    login: loginReducer,
   },
 });

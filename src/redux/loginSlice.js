@@ -1,22 +1,22 @@
 import { createSlice } from "@reduxjs/toolkit";
 
 const startState = {
-  loading: '',
+  loading: false,
   data:[],
   error:'',
 }
 
 const loginSlice = createSlice({
-  name: 'employees',
+  name: 'login',
   initialState:startState,
   reducers: {
     startLogin(state, action) {
-      state.loading = 'start';
+      state.loading = true;
       state.data = [];
       state.error = '';
     },
     successLogin(state, action) {
-      state.loading = 'success';
+      state.loading = false;
       state.data = {
         email: 'estebanvelazquez@test.com',
         name: 'Esteban',
@@ -26,7 +26,7 @@ const loginSlice = createSlice({
       state.error = '';
     },
     errorLogin(state, action) {
-      state.loading = 'error';
+      state.loading = false;
       state.data = [];
       state.error = 'Usuario incorrecto /o contraseña';
     },

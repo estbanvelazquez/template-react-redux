@@ -7,7 +7,7 @@ const startState = {
 }
 
 const charactersSlice = createSlice({
-  name: 'employees',
+  name: 'characters',
   initialState:startState,
   reducers: {
     startCharacters(state, action) {
