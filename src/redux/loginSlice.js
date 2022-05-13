@@ -1,34 +1,30 @@
 import { createSlice } from "@reduxjs/toolkit";
 
 const startState = {
-  loading: false,
-  data:[],
-  error:'',
+  loadingUser: false,
+  dataUser:localStorage.getItem('user')? JSON.parse(localStorage.getItem('user')) : [],
+  errorUser: false,
 }
+
 
 const loginSlice = createSlice({
   name: 'login',
   initialState:startState,
   reducers: {
     startLogin(state, action) {
-      state.loading = true;
-      state.data = [];
-      state.error = '';
+      state.loadingUser = true;
+      state.dataUser = [];
+      state.errorUser = false;
     },
     successLogin(state, action) {
-      state.loading = false;
-      state.data = {
-        email: 'estebanvelazquez@test.com',
-        name: 'Esteban',
-        lastname: 'Velazquez',
-        token:'ababababababababba'
-      };
-      state.error = '';
+      state.loadingUser = false;
+      state.dataUser = action.payload;
+      state.errorUser = false;
     },
     errorLogin(state, action) {
-      state.loading = false;
-      state.data = [];
-      state.error = 'Usuario incorrecto /o contraseña';
+      state.loadingUser = false;
+      state.dataUser = "Error al cargar los personajes";
+      state.errorUser = true;
     },
   }
 });
@@ -36,12 +32,19 @@ const loginSlice = createSlice({
 export const {startLogin, successLogin, errorLogin} = loginSlice.actions
 export default loginSlice.reducer
 
-export const loginUser = (email,password) => async (dispatch) => {
+export const loginUser = (credentials) => async (dispatch) => {
   try{
     dispatch(startLogin());
-    if(email === 'estebanvelazquez@test.com' && password === "123" ){
+    if(credentials.user === 'estebanvelazquez@test.com' && credentials.password === "123" ){
       setTimeout(()=>{
-        dispatch(successLogin());
+        const user = {
+          email: 'estebanvelazquez@test.com',
+          name: 'Esteban',
+          lastname: 'Velazquez',
+          token:'ababababababababba'
+        };
+        localStorage.setItem('user', JSON.stringify(user));
+        dispatch(successLogin(user));
       }, 5000);
     }else{
       dispatch(errorLogin());

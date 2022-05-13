@@ -1,5 +1,12 @@
+import { useDispatch, useSelector } from "react-redux";
+import LogIn from "../views/Login";
+import {  Outlet } from "react-router-dom";
 const PrivateRoute = () => { 
-  return <div></div>
+  const {dataUser} = useSelector((state) => state.login);
+
+  return (
+    dataUser?.token? <Outlet /> : <LogIn />
+  )
 }
 
 export default PrivateRoute;

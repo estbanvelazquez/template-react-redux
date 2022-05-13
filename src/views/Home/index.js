@@ -5,15 +5,16 @@ import {getAllCharacters} from "../../redux/charactersSlice"
 
 const Home = () => {
     const dispatch = useDispatch();
-    const { loading, data, error} = useSelector((state) => state.characters);
+    const { loadingCharacters, dataCharacters, errorCharacters} = useSelector((state) => state.characters);
+    const { loadingUser, dataUser, errorUser} = useSelector((state) => state.login);
     useEffect(() => {
       dispatch(getAllCharacters());
     }, []);
 
     return(
         <div className="homePage">
-          {loading === 'success' &&
-            data?.map(character => (
+          {!loadingCharacters &&
+            dataCharacters?.map(character => (
               <p key={character.id}>{character.name}</p>
             ))
           }

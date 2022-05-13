@@ -9,46 +9,44 @@ import Home from '../../views/Home'
 
 const LogIn = () => {
     const dispatch = useDispatch();
-    const { loading, data, error} = useSelector((state) => state.login);
-    const [password, setPassword] = useState('');
-    const [email, setEmail] = useState('');
-
-    const passwordHandle = ({target:{value}}) => {
-      setPassword(value);
+    const { loadingUser, dataUser, errorUser} = useSelector((state) => state.login);
+    
+    const initialCredentials = {
+      user: '',
+      password: '',
     }
-    const emailHandle = ({target:{value}}) => {
-      setEmail(value);
+    const [credentials, setCredentials] = useState(initialCredentials);
+
+    const crediantalsHandle = ({target:{value, name}}) => {
+      setCredentials({
+        ...credentials,
+        [name]: value,
+      }
+      );
     }
 
     const submitLog = () => {
-      dispatch(loginUser(email,password));
-    }
-    
-    useEffect(() =>{
-      if(data?.token){
-        localStorage.setItem('user', JSON.stringify(data));
-        localStorage.setItem('token', data.token);
-      }
-    },[data])
+      dispatch(loginUser(credentials));
+    }    
 
     return(
       <>
-        {localStorage.getItem('token') || data?.token ? <Home /> :
+        {dataUser?.token? <Home /> :
           <div className="login-page">
             <div className='login-cont'>
               <h4>Inicio de Sesión</h4>
               <Form>
                 <Form.Group className="mb-3 cont-group" controlId="formBasicEmail">
-                  <Form.Control onChange={emailHandle} value={email} type="email" placeholder="Correo electrónico" />
+                  <Form.Control name="user" onChange={crediantalsHandle} value={credentials.user} type="email" placeholder="Correo electrónico" />
                 </Form.Group>
                 <Form.Group className="mb-3 cont-group" controlId="formBasicPassword">
-                  <Form.Control onChange={passwordHandle} value={password} type="password" placeholder="Contraseña" />
+                  <Form.Control name="password" onChange={crediantalsHandle} value={credentials.password} type="password" placeholder="Contraseña" />
                   <p>
                     <a href="#">¿Olvidaste tu contraseña?</a>
                   </p>
                 </Form.Group>
-                <Button onClick={submitLog} variant="primary" type="button" disabled={loading}>
-                  {loading ? <Spinner animation="border" role="status"><span className="visually-hidden">Loading...</span></Spinner>
+                <Button onClick={submitLog} variant="primary" type="button" disabled={loadingUser}>
+                  {loadingUser ? <Spinner animation="border" role="status"><span className="visually-hidden">Loading...</span></Spinner>
                     : "Iniciar sesión"
                   }
                 </Button>

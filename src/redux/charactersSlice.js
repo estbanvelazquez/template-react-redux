@@ -1,9 +1,9 @@
 import { createSlice } from "@reduxjs/toolkit";
 
 const startState = {
-  loading: '',
-  data:[],
-  error:'',
+  loadingCharacters: false,
+  dataCharacters:[],
+  errorCharacters:false,
 }
 
 const charactersSlice = createSlice({
@@ -11,19 +11,19 @@ const charactersSlice = createSlice({
   initialState:startState,
   reducers: {
     startCharacters(state, action) {
-      state.loading = 'start';
-      state.data = [];
-      state.error = '';
+      state.loadingCharacters = true;
+      state.dataCharacters = [];
+      state.errorCharacters = false;
     },
     successCharacters(state, action) {
-      state.loading = 'success';
-      state.data = action.payload;
-      state.error = '';
+      state.loadingCharacters = false;
+      state.dataCharacters = action.payload;
+      state.errorCharacters = false;
     },
     errorCharacters(state, action) {
-      state.loading = 'error';
-      state.data = [];
-      state.error = action.payload;
+      state.loadingCharacters = false;
+      state.dataCharacters = "Credenciales invalidas";
+      state.errorCharacters = false;
     },
   }
 });
