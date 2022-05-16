@@ -1,8 +1,10 @@
 import { Button, Form, Spinner } from 'react-bootstrap';
+import { useForm } from 'react-hook-form';
 
 import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import {loginUser} from '../../redux/loginSlice';
+
 
 import './style.scss';
 import Home from '../../views/Home' 
@@ -10,6 +12,7 @@ import Home from '../../views/Home'
 const LogIn = () => {
     const dispatch = useDispatch();
     const { loadingUser, dataUser, errorUser} = useSelector((state) => state.login);
+    const { register, handleSubmit, watch, formState: { errors } }  = useForm();
     
     const initialCredentials = {
       user: '',
@@ -35,9 +38,10 @@ const LogIn = () => {
           <div className="login-page">
             <div className='login-cont'>
               <h4>Inicio de Sesión</h4>
-              <Form>
+              <Form onSubmit={handleSubmit(onSubmit)}>
                 <Form.Group className="mb-3 cont-group" controlId="formBasicEmail">
-                  <Form.Control name="user" onChange={crediantalsHandle} value={credentials.user} type="email" placeholder="Correo electrónico" />
+                  <Form.Control name="user" onChange={crediantalsHandle} value={credentials.user} type="email" placeholder="Correo electrónico" 
+                  { ...register("user") }/>
                 </Form.Group>
                 <Form.Group className="mb-3 cont-group" controlId="formBasicPassword">
                   <Form.Control name="password" onChange={crediantalsHandle} value={credentials.password} type="password" placeholder="Contraseña" />
@@ -45,7 +49,7 @@ const LogIn = () => {
                     <a href="#">¿Olvidaste tu contraseña?</a>
                   </p>
                 </Form.Group>
-                <Button onClick={submitLog} variant="primary" type="button" disabled={loadingUser}>
+                <Button  variant="primary" type="submit" disabled={loadingUser}>
                   {loadingUser ? <Spinner animation="border" role="status"><span className="visually-hidden">Loading...</span></Spinner>
                     : "Iniciar sesión"
                   }
