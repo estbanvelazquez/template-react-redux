@@ -1,4 +1,4 @@
-import { Button, Form, Spinner } from 'react-bootstrap';
+import { Button, Form, Spinner, Alert } from 'react-bootstrap';
 import { useForm } from 'react-hook-form';
 
 import { useEffect, useState } from 'react';
@@ -14,23 +14,11 @@ const LogIn = () => {
     const { loadingUser, dataUser, errorUser} = useSelector((state) => state.login);
     const { register, handleSubmit, watch, formState: { errors } }  = useForm();
     
-    const initialCredentials = {
-      user: '',
-      password: '',
-    }
-    const [credentials, setCredentials] = useState(initialCredentials);
-
-    const crediantalsHandle = ({target:{value, name}}) => {
-      setCredentials({
-        ...credentials,
-        [name]: value,
-      }
-      );
+    const onSubmit = (event) => {
+      console.log(event);
     }
 
-    const submitLog = () => {
-      dispatch(loginUser(credentials));
-    }    
+ 
 
     return(
       <>
@@ -40,11 +28,40 @@ const LogIn = () => {
               <h4>Inicio de Sesión</h4>
               <Form onSubmit={handleSubmit(onSubmit)}>
                 <Form.Group className="mb-3 cont-group" controlId="formBasicEmail">
-                  <Form.Control name="user" onChange={crediantalsHandle} value={credentials.user} type="email" placeholder="Correo electrónico" 
-                  { ...register("user") }/>
+                  <Form.Control type="text" placeholder="Correo electrónico" 
+                  { ...register("user", {
+                    required: {
+                      value:true,
+                      message: "Ingresa tu correo electrónico"
+                    },
+                    pattern: {
+                      value: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i,
+                      message: "Ingresa un email valido"
+                    }
+                  }) }/>
+                  {errors.user &&
+                    <Alert variant="danger">
+                      <p>{errors.user.message}</p>
+                    </Alert>
+                  }
                 </Form.Group>
                 <Form.Group className="mb-3 cont-group" controlId="formBasicPassword">
-                  <Form.Control name="password" onChange={crediantalsHandle} value={credentials.password} type="password" placeholder="Contraseña" />
+                  <Form.Control  type="password" placeholder="Contraseña" 
+                  { ...register("password", {
+                    required:{
+                      value: true,
+                      message: "Ingresa una contraseña"
+                    },
+                    minLength:{
+                      value: 8,
+                      message: "La contraseña debe contener al menos 8 caracteres"
+                    }
+                  }) } />
+                  {errors.password &&
+                    <Alert variant="danger">
+                      <p>{errors.password.message}</p>
+                    </Alert>
+                  }
                   <p>
                     <a href="#">¿Olvidaste tu contraseña?</a>
                   </p>
