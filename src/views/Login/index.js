@@ -3,7 +3,7 @@ import { useForm } from 'react-hook-form';
 
 import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import {loginUser} from '../../redux/loginSlice';
+import {loginUser} from '../../api/calls';
 
 
 import './style.scss';
@@ -15,7 +15,7 @@ const LogIn = () => {
     const { register, handleSubmit, watch, formState: { errors } }  = useForm();
     
     const onSubmit = (event) => {
-      console.log(event);
+      dispatch(loginUser(event));
     }
 
  
@@ -27,6 +27,11 @@ const LogIn = () => {
             <div className='login-cont'>
               <h4>Inicio de Sesión</h4>
               <Form onSubmit={handleSubmit(onSubmit)}>
+                {errorUser && 
+                  <Alert variant="danger">
+                    <p>Credenciales invalidas</p>
+                  </Alert>
+                }
                 <Form.Group className="mb-3 cont-group" controlId="formBasicEmail">
                   <Form.Control type="text" placeholder="Correo electrónico" 
                   { ...register("user", {

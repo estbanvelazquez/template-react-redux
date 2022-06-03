@@ -2,6 +2,14 @@
   min-height: 100vh;
   background-color: #f7f7f7;
   padding-top: 100px;
+  .alert{
+    padding: 5px;
+    margin-top: 5px;
+    p{
+      margin: 0;
+      padding: 0;
+    }
+  }
   .login-cont{
     background-color: white;
     max-width: 400px;
@@ -26,14 +34,6 @@
         text-align: center;
         a{
           color: black;
-        }
-      }
-      .alert{
-        padding: 5px;
-        margin-top: 5px;
-        p{
-          margin: 0;
-          padding: 0;
         }
       }
     }
