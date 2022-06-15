@@ -58,7 +58,7 @@ const LogIn = () => {
                       message: "Ingresa una contraseña"
                     },
                     minLength:{
-                      value: 8,
+                      value: 4,
                       message: "La contraseña debe contener al menos 8 caracteres"
                     }
                   }) } />
